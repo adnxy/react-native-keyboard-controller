@@ -120,11 +120,7 @@ public final class KeyboardTrackingView: UIView {
   }
 
   @objc var view: UIView? {
-    if #available(iOS 26.0, *) {
-      return self
-    } else {
-      return keyboardView
-    }
+    return keyboardView
   }
 
   func interactive(point: CGPoint) -> CGFloat {
@@ -135,7 +131,7 @@ public final class KeyboardTrackingView: UIView {
     let keyboardPosition = keyboardWindowH - keyboardFrameY
 
     // for `keyboardLayoutGuide` case we can just read keyboard position directly - no interpolation needed
-    if #available(iOS 26.0, *) {
+    /*if #available(iOS 26.0, *) {
       if keyboardPosition > keyboardHeight {
         return Self.invalidPosition
       }
@@ -145,7 +141,7 @@ public final class KeyboardTrackingView: UIView {
         return keyboardPosition - KeyboardAreaExtender.shared.offset
       }
       return keyboardPosition
-    }
+    }*/
 
     // if keyboard height is not equal to its bounds - we can ignore
     // values, since they'll be invalid and will cause UI jumps
