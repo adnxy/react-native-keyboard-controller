@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Image,
   Modal,
   Platform,
   StyleSheet,
@@ -8,7 +9,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
+import {
+  KeyboardAvoidingView,
+  useReanimatedKeyboardAnimation,
+} from "react-native-keyboard-controller";
+import Animated, {
+  useAnimatedStyle,
+  interpolate,
+} from "react-native-reanimated";
 
 import type { TextInputProps } from "react-native";
 
@@ -44,6 +52,17 @@ function KAVContent({
   automaticOffset: boolean;
 }) {
   const [rememberMe, setRememberMe] = useState(false);
+  const { progress } = useReanimatedKeyboardAnimation();
+
+  const hideOnKeyboardStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(progress.value, [0, 1], [1, 0]),
+    maxHeight: interpolate(progress.value, [0, 1], [200, 0]),
+    overflow: "hidden" as const,
+  }));
+
+  const logoAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(progress.value, [0, 1], [1, 0]),
+  }));
 
   return (
     <KeyboardAvoidingView
@@ -56,7 +75,11 @@ function KAVContent({
       style={styles.content}
     >
       <View style={styles.inner}>
-        <View style={styles.headerSection}>
+        <Animated.View style={[styles.headerSection, hideOnKeyboardStyle]}>
+          <Animated.Image
+            source={require("../../../assets/logo_black.png")}
+            style={[styles.logo, logoAnimatedStyle]}
+          />
           <Text style={styles.heading}>
             Good to see{"\n"}you again<Text style={styles.headingDot}>.</Text>
           </Text>
@@ -64,7 +87,7 @@ function KAVContent({
             Enter your credentials below to access your account and get back to
             what matters most.
           </Text>
-        </View>
+        </Animated.View>
         <View style={styles.formSection}>
           {/* Email */}
           <View style={styles.fieldGroup}>
@@ -167,55 +190,63 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#F2F2F7",
   },
   inner: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: 28,
+    paddingHorizontal: 24,
+  },
+  logo: {
+    width: 100,
+    height: 24,
+    resizeMode: "contain",
+    marginBottom: 24,
   },
   headerSection: {
-    marginBottom: 12,
+    marginBottom: 32,
   },
   heading: {
-    color: "#0F172A",
-    fontSize: 38,
-    fontWeight: "800",
-    letterSpacing: -1,
-    lineHeight: 46,
+    color: "#000000",
+    fontSize: 36,
+    fontWeight: "900",
+    letterSpacing: -0.5,
+    lineHeight: 43,
   },
   headingDot: {
     color: "#007AFF",
   },
   subtitle: {
-    color: "#94A3B8",
-    fontSize: 16,
+    color: "#8E8E93",
+    fontSize: 15,
     fontWeight: "400",
     marginTop: 10,
-    lineHeight: 23,
+    lineHeight: 22,
+    letterSpacing: -0.24,
   },
   formSection: {
-    paddingTop: 28,
+    gap: 20,
   },
   fieldGroup: {
-    marginBottom: 20,
+    gap: 7,
   },
   label: {
     fontSize: 13,
     fontWeight: "600",
-    color: "#475569",
-    marginBottom: 8,
-    letterSpacing: 0.2,
+    color: "#3A3A3C",
+    letterSpacing: -0.08,
+    textTransform: "uppercase",
   },
   textInput: {
     height: 52,
-    backgroundColor: "#F8FAFC",
-    borderRadius: 14,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 12,
     borderWidth: 1.5,
-    borderColor: "#E2E8F0",
+    borderColor: "#D1D1D6",
     paddingHorizontal: 16,
-    fontSize: 16,
-    color: "#0F172A",
+    fontSize: 17,
+    color: "#000000",
+    letterSpacing: -0.41,
   },
   textInputFocused: {
     borderColor: "#007AFF",
@@ -224,8 +255,8 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: "#007AFF",
         shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.15,
-        shadowRadius: 10,
+        shadowOpacity: 0.2,
+        shadowRadius: 6,
       },
       android: {
         elevation: 3,
@@ -236,105 +267,118 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    marginTop: -4,
-    marginBottom: 8,
+    marginTop: -12,
   },
   forgotText: {
     color: "#007AFF",
-    fontSize: 14,
-    fontWeight: "600",
+    fontSize: 15,
+    fontWeight: "400",
+    letterSpacing: -0.24,
   },
   button: {
-    height: 54,
-    borderRadius: 14,
+    height: 52,
+    borderRadius: 12,
     backgroundColor: "#007AFF",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 4,
+    marginTop: 8,
     ...Platform.select({
       ios: {
         shadowColor: "#007AFF",
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.35,
-        shadowRadius: 16,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
       },
       android: {
-        elevation: 8,
+        elevation: 6,
       },
     }),
   },
   buttonText: {
-    fontWeight: "700",
+    fontWeight: "600",
     fontSize: 17,
     color: "#FFFFFF",
-    letterSpacing: -0.2,
+    letterSpacing: -0.41,
   },
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 12,
+    marginVertical: 20,
   },
   dividerLine: {
     flex: 1,
     height: StyleSheet.hairlineWidth,
-    backgroundColor: "#E2E8F0",
+    backgroundColor: "#C6C6C8",
   },
   dividerText: {
     paddingHorizontal: 16,
     fontSize: 13,
-    color: "#94A3B8",
-    fontWeight: "500",
+    color: "#8E8E93",
+    fontWeight: "400",
   },
   socialButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     height: 52,
-    borderRadius: 14,
+    borderRadius: 12,
     borderWidth: 1.5,
-    borderColor: "#E2E8F0",
+    borderColor: "#D1D1D6",
     backgroundColor: "#FFFFFF",
-    marginBottom: 12,
     gap: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.06,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   socialIcon: {
     fontSize: 18,
-    fontWeight: "800",
-    color: "#0F172A",
+    fontWeight: "700",
+    color: "#000000",
   },
   socialText: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: "#0F172A",
+    fontSize: 17,
+    fontWeight: "400",
+    color: "#000000",
+    letterSpacing: -0.41,
   },
   footer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 12,
+    marginTop: 24,
     paddingBottom: 28,
   },
   footerText: {
-    fontSize: 14,
-    color: "#94A3B8",
+    fontSize: 15,
+    color: "#8E8E93",
+    letterSpacing: -0.24,
   },
   footerLink: {
-    fontSize: 14,
-    fontWeight: "700",
+    fontSize: 15,
+    fontWeight: "600",
     color: "#007AFF",
+    letterSpacing: -0.24,
   },
   modalHeader: {
     flexDirection: "row",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#F2F2F7",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#E2E8F0",
+    borderBottomColor: "#C6C6C8",
   },
   closeButton: {
     color: "#007AFF",
     fontSize: 17,
-    fontWeight: "600",
+    fontWeight: "400",
   },
   modalTitle: {
     fontSize: 17,
@@ -342,6 +386,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     marginRight: 40,
-    color: "#0F172A",
+    color: "#000000",
   },
 });
