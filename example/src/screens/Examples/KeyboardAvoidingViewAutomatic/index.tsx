@@ -9,14 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {
-  KeyboardAvoidingView,
-  useReanimatedKeyboardAnimation,
-} from "react-native-keyboard-controller";
-import Animated, {
-  useAnimatedStyle,
-  interpolate,
-} from "react-native-reanimated";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 
 import type { TextInputProps } from "react-native";
 
@@ -51,43 +44,31 @@ function KAVContent({
   keyboardVerticalOffset: number;
   automaticOffset: boolean;
 }) {
-  const [rememberMe, setRememberMe] = useState(false);
-  const { progress } = useReanimatedKeyboardAnimation();
-
-  const hideOnKeyboardStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(progress.value, [0, 1], [1, 0]),
-    maxHeight: interpolate(progress.value, [0, 1], [200, 0]),
-    overflow: "hidden" as const,
-  }));
-
-  const logoAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(progress.value, [0, 1], [1, 0]),
-  }));
-
   return (
-    <KeyboardAvoidingView
-      automaticOffset={automaticOffset}
-      behavior={behavior}
-      contentContainerStyle={
-        behavior === "position" ? styles.container : undefined
-      }
-      keyboardVerticalOffset={keyboardVerticalOffset}
-      style={styles.content}
-    >
-      <View style={styles.inner}>
-        <Animated.View style={[styles.headerSection, hideOnKeyboardStyle]}>
-          <Animated.Image
-            source={require("../../../assets/logo_black.png")}
-            style={[styles.logo, logoAnimatedStyle]}
-          />
-          <Text style={styles.heading}>
-            Good to see{"\n"}you again<Text style={styles.headingDot}>.</Text>
-          </Text>
-          <Text style={styles.subtitle}>
-            Enter your credentials below to access your account and get back to
-            what matters most.
-          </Text>
-        </Animated.View>
+    <View style={styles.content}>
+      <View style={styles.headerSection}>
+        <Image
+          source={require("../../../assets/logo_black.png")}
+          style={styles.logo}
+        />
+        <Text style={styles.heading}>
+          Good to see{"\n"}you again<Text style={styles.headingDot}>.</Text>
+        </Text>
+        <Text style={styles.subtitle}>
+          Enter your credentials below to access your account and get back to
+          what matters most.
+        </Text>
+      </View>
+
+      <KeyboardAvoidingView
+        automaticOffset={automaticOffset}
+        behavior={behavior}
+        contentContainerStyle={
+          behavior === "position" ? styles.kavContent : undefined
+        }
+        keyboardVerticalOffset={keyboardVerticalOffset}
+        style={styles.kavContent}
+      >
         <View style={styles.formSection}>
           {/* Email */}
           <View style={styles.fieldGroup}>
@@ -122,7 +103,9 @@ function KAVContent({
         <TouchableOpacity activeOpacity={0.85} style={styles.button}>
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
+      </KeyboardAvoidingView>
 
+      <View style={styles.bottomSection}>
         <View style={styles.dividerRow}>
           <View style={styles.dividerLine} />
           <Text style={styles.dividerText}>or</Text>
@@ -134,7 +117,6 @@ function KAVContent({
           <Text style={styles.socialText}>Continue with Google</Text>
         </TouchableOpacity>
 
-
         <View style={styles.footer}>
           <Text style={styles.footerText}>Don't have an account?</Text>
           <TouchableOpacity>
@@ -142,7 +124,7 @@ function KAVContent({
           </TouchableOpacity>
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
@@ -191,20 +173,19 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: "#F2F2F7",
-  },
-  inner: {
-    flex: 1,
-    justifyContent: "center",
     paddingHorizontal: 24,
+  },
+  kavContent: {
+    flex: 1,
   },
   logo: {
     width: 100,
     height: 24,
     resizeMode: "contain",
-    marginBottom: 24,
+    marginBottom: 28,
   },
   headerSection: {
-    marginBottom: 32,
+    paddingTop: 72,
   },
   heading: {
     color: "#000000",
@@ -220,15 +201,20 @@ const styles = StyleSheet.create({
     color: "#8E8E93",
     fontSize: 15,
     fontWeight: "400",
-    marginTop: 10,
+    marginTop: 12,
     lineHeight: 22,
     letterSpacing: -0.24,
   },
   formSection: {
-    gap: 20,
+    flex: 1,
+    justifyContent: "center",
+    gap: 24,
+  },
+  bottomSection: {
+    paddingBottom: 28,
   },
   fieldGroup: {
-    gap: 7,
+    gap: 8,
   },
   label: {
     fontSize: 13,
@@ -267,7 +253,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    marginTop: -12,
+    marginTop: -16,
   },
   forgotText: {
     color: "#007AFF",
@@ -303,7 +289,7 @@ const styles = StyleSheet.create({
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 20,
+    marginVertical: 16,
   },
   dividerLine: {
     flex: 1,
@@ -353,8 +339,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 24,
-    paddingBottom: 28,
+    marginTop: 20,
   },
   footerText: {
     fontSize: 15,
