@@ -57,66 +57,65 @@ function KAVContent({
     >
       <View style={styles.inner}>
         <View style={styles.headerSection}>
-          <Text style={styles.heading}>Sign in to your{"\n"}Account</Text>
+          <Text style={styles.heading}>
+            Good to see{"\n"}you again<Text style={styles.headingDot}>.</Text>
+          </Text>
           <Text style={styles.subtitle}>
-            Enter your email and password to log in
+            Enter your credentials below to access your account and get back to
+            what matters most.
           </Text>
         </View>
         <View style={styles.formSection}>
-          <View style={styles.inputs}>
-            {/* Email */}
-            <View style={styles.fieldGroup}>
-              <Text style={styles.label}>Email</Text>
-              <TextInput
-                autoCapitalize="none"
-                keyboardType="email-address"
-                placeholder="name@example.com"
-                placeholderTextColor="#C4C4C7"
-              />
-            </View>
+          {/* Email */}
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              autoCapitalize="none"
+              keyboardType="email-address"
+              placeholder="name@example.com"
+              placeholderTextColor="#B0B7C3"
+            />
+          </View>
 
-            {/* Password */}
-            <View style={styles.fieldGroup}>
-              <Text style={styles.label}>Password</Text>
-              <TextInput
-                secureTextEntry
-                autoCapitalize="none"
-                placeholder="Enter your password"
-                placeholderTextColor="#C4C4C7"
-              />
-            </View>
+          {/* Password */}
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              secureTextEntry
+              autoCapitalize="none"
+              placeholder="Enter your password"
+              placeholderTextColor="#B0B7C3"
+            />
+          </View>
 
-            {/* Remember me + Forgot */}
-            <View style={styles.forgotRow}>
-              <TouchableOpacity
-                style={styles.rememberRow}
-                onPress={() => setRememberMe(!rememberMe)}
-              >
-                <View
-                  style={[
-                    styles.checkbox,
-                    rememberMe && styles.checkboxChecked,
-                  ]}
-                >
-                  {rememberMe && <Text style={styles.checkmark}>✓</Text>}
-                </View>
-                <Text style={styles.rememberText}>Remember me</Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Text style={styles.forgotText}>Forgot Password?</Text>
-              </TouchableOpacity>
-            </View>
+          {/* Forgot */}
+          <View style={styles.forgotRow}>
+            <TouchableOpacity>
+              <Text style={styles.forgotText}>Forgot Password?</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity activeOpacity={0.85} style={styles.button}>
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
+
+        <View style={styles.dividerRow}>
+          <View style={styles.dividerLine} />
+          <Text style={styles.dividerText}>or</Text>
+          <View style={styles.dividerLine} />
+        </View>
+
+        <TouchableOpacity activeOpacity={0.7} style={styles.socialButton}>
+          <Text style={styles.socialIcon}>G</Text>
+          <Text style={styles.socialText}>Continue with Google</Text>
+        </TouchableOpacity>
+
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>Don't have an account?</Text>
           <TouchableOpacity>
-            <Text style={styles.footerLink}>Sign Up</Text>
+            <Text style={styles.footerLink}> Sign Up</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -133,44 +132,6 @@ export default function KeyboardAvoidingViewAutomaticExample() {
 
   return (
     <>
-      <View style={styles.settings}>
-        <TouchableOpacity
-          style={styles.settingsButton}
-          onPress={() => {
-            const index = behaviors.indexOf(behavior);
-
-            setBehavior(
-              behaviors[index === behaviors.length - 1 ? 0 : index + 1],
-            );
-          }}
-        >
-          <Text style={styles.settingsText}>{behavior}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.settingsButton}
-          onPress={() => {
-            const index = offsets.indexOf(offset);
-
-            setOffset(offsets[index === offsets.length - 1 ? 0 : index + 1]);
-          }}
-        >
-          <Text style={styles.settingsText}>+{offset}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.settingsButton}
-          onPress={() => setAutomaticOffset((v) => !v)}
-        >
-          <Text style={styles.settingsText}>
-            {automaticOffset ? "Auto" : "Manual"}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.settingsButton}
-          onPress={() => setShowModal(true)}
-        >
-          <Text style={styles.settingsText}>Modal</Text>
-        </TouchableOpacity>
-      </View>
       <KAVContent
         automaticOffset={automaticOffset}
         behavior={behavior}
@@ -210,51 +171,51 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 28,
   },
   headerSection: {
-    paddingTop: 28,
-    paddingHorizontal: 28,
-    paddingBottom: 4,
+    marginBottom: 12,
   },
   heading: {
-    color: "#1A1A2E",
-    fontSize: 32,
-    fontWeight: "700",
-    letterSpacing: 0.2,
-    lineHeight: 40,
+    color: "#0F172A",
+    fontSize: 38,
+    fontWeight: "800",
+    letterSpacing: -1,
+    lineHeight: 46,
+  },
+  headingDot: {
+    color: "#007AFF",
   },
   subtitle: {
-    color: "#9CA3AF",
-    fontSize: 15,
+    color: "#94A3B8",
+    fontSize: 16,
     fontWeight: "400",
     marginTop: 10,
-    lineHeight: 21,
+    lineHeight: 23,
   },
   formSection: {
-    flex: 1,
-    paddingHorizontal: 28,
-    paddingTop: 32,
+    paddingTop: 28,
   },
-  inputs: {},
   fieldGroup: {
-    marginBottom: 18,
+    marginBottom: 20,
   },
   label: {
     fontSize: 13,
     fontWeight: "600",
-    color: "#6B7280",
+    color: "#475569",
     marginBottom: 8,
-    marginLeft: 2,
+    letterSpacing: 0.2,
   },
   textInput: {
     height: 52,
-    backgroundColor: "#F9FAFB",
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
+    backgroundColor: "#F8FAFC",
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: "#E2E8F0",
     paddingHorizontal: 16,
     fontSize: 16,
-    color: "#1A1A2E",
+    color: "#0F172A",
   },
   textInputFocused: {
     borderColor: "#007AFF",
@@ -263,47 +224,20 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: "#007AFF",
         shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.12,
-        shadowRadius: 8,
+        shadowOpacity: 0.15,
+        shadowRadius: 10,
       },
       android: {
-        elevation: 2,
+        elevation: 3,
       },
     }),
   },
   forgotRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     alignItems: "center",
-    marginTop: 2,
-  },
-  rememberRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderRadius: 5,
-    borderWidth: 1.5,
-    borderColor: "#D1D5DB",
-    backgroundColor: "#FFFFFF",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  checkboxChecked: {
-    backgroundColor: "#007AFF",
-    borderColor: "#007AFF",
-  },
-  checkmark: {
-    color: "#FFFFFF",
-    fontSize: 12,
-    fontWeight: "700",
-  },
-  rememberText: {
-    fontSize: 14,
-    color: "#6B7280",
+    marginTop: -4,
+    marginBottom: 8,
   },
   forgotText: {
     color: "#007AFF",
@@ -311,26 +245,26 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   button: {
-    marginHorizontal: 28,
-    height: 50,
-    borderRadius: 12,
+    height: 54,
+    borderRadius: 14,
     backgroundColor: "#007AFF",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 4,
     ...Platform.select({
       ios: {
         shadowColor: "#007AFF",
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.3,
-        shadowRadius: 12,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.35,
+        shadowRadius: 16,
       },
       android: {
-        elevation: 6,
+        elevation: 8,
       },
     }),
   },
   buttonText: {
-    fontWeight: "600",
+    fontWeight: "700",
     fontSize: 17,
     color: "#FFFFFF",
     letterSpacing: -0.2,
@@ -338,80 +272,56 @@ const styles = StyleSheet.create({
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 16,
-    marginHorizontal: 28,
+    marginVertical: 12,
   },
   dividerLine: {
     flex: 1,
     height: StyleSheet.hairlineWidth,
-    backgroundColor: "#E5E7EB",
+    backgroundColor: "#E2E8F0",
   },
   dividerText: {
     paddingHorizontal: 16,
     fontSize: 13,
-    color: "#9CA3AF",
+    color: "#94A3B8",
     fontWeight: "500",
   },
-  googleButton: {
+  socialButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    height: 54,
+    height: 52,
     borderRadius: 14,
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderWidth: 1.5,
+    borderColor: "#E2E8F0",
     backgroundColor: "#FFFFFF",
-    marginHorizontal: 28,
+    marginBottom: 12,
     gap: 10,
   },
-  googleIcon: {
+  socialIcon: {
     fontSize: 18,
-    fontWeight: "700",
-    color: "#4285F4",
+    fontWeight: "800",
+    color: "#0F172A",
   },
-  googleText: {
+  socialText: {
     fontSize: 15,
     fontWeight: "600",
-    color: "#1A1A2E",
+    color: "#0F172A",
   },
   footer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 12,
     paddingBottom: 28,
-    paddingTop: 20,
-    gap: 4,
   },
   footerText: {
     fontSize: 14,
-    color: "#9CA3AF",
+    color: "#94A3B8",
   },
   footerLink: {
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: "700",
     color: "#007AFF",
-  },
-  settings: {
-    flexDirection: "row",
-    gap: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    backgroundColor: "#F2F2F7",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#E5E5EA",
-  },
-  settingsButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 10,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1,
-    borderColor: "#D1D1D6",
-  },
-  settingsText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#1C1C1E",
   },
   modalHeader: {
     flexDirection: "row",
@@ -419,7 +329,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#FFFFFF",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#E5E7EB",
+    borderBottomColor: "#E2E8F0",
   },
   closeButton: {
     color: "#007AFF",
@@ -432,6 +342,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     marginRight: 40,
-    color: "#1A1A2E",
+    color: "#0F172A",
   },
 });
